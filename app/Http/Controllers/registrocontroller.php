@@ -7,9 +7,18 @@ use App\Models\Registro;
 
 class RegistroController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $registros = Registro::orderBy('fecha', 'desc')->get();
+        $query = Registro::query();
+
+        if ($request->filled('buscar')) {
+            $query->where('codigo', 'like', '%' . $request->buscar . '%')
+                ->orWhere('nombre', 'like', '%' . $request->buscar . '%')
+                ->orWhere('email', 'like', '%' . $request->buscar . '%');
+        }
+
+        $registros = $query->orderBy('fecha', 'desc')->get();
+
         return view('registros.index', compact('registros'));
     }
 
