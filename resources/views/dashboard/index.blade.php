@@ -35,6 +35,9 @@
         </div>
     </div>
 
+    <!-- GRÁFICO CHART.JS -->
+    <canvas id="estadoChart" height="100"></canvas>
+
     <h4>Últimos registros cargados</h4>
 
     <table class="table table-striped">
@@ -59,5 +62,21 @@
     </table>
 
     <a href="/registros" class="btn btn-secondary mt-3">Ver todos los registros</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('estadoChart');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($porEstado->keys()) !!},
+                datasets: [{
+                    label: 'Registros por estado',
+                    data: {!! json_encode($porEstado->values()) !!}
+                }]
+            }
+        });
+    </script>
 </div>
 @endsection

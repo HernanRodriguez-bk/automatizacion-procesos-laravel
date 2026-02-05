@@ -14,11 +14,17 @@ class DashboardController extends Controller
 
         $ultimos = Registro::orderBy('created_at', 'desc')->take(5)->get();
 
+        $porEstado = Registro::selectRaw('estado, COUNT(*) as total')
+        ->groupBy('estado')
+        ->pluck('total', 'estado');
+
+
         return view('dashboard.index', compact(
             'total',
             'activos',
             'pendientes',
-            'ultimos'
+            'ultimos',
+            'porEstado'
         ));
     }
 }
