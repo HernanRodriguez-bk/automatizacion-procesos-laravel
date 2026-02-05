@@ -11,6 +11,20 @@
         {{ session('success') }}
     </div>
     @endif
+          <!-- FORMULARIO DE BÚSQUEDA AQUÍ -->
+    <form method="GET" class="mb-3">
+    <div class="input-group">
+        <input 
+            type="text" 
+            name="buscar" 
+            class="form-control" 
+            placeholder="Buscar por código, nombre o email"
+            value="{{ request('buscar') }}"
+        >
+        <button class="btn btn-secondary">Buscar</button>
+    </div>
+</form>
+
 
 
     <h2 class="mb-4">Listado de registros</h2>
