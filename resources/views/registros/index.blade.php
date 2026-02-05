@@ -25,6 +25,9 @@
     </div>
 </form>
 
+    <a href="/registros/exportar" class="btn btn-success mb-3">
+        Exportar CSV
+    </a>
 
 
     <h2 class="mb-4">Listado de registros</h2>

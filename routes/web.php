@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegistroController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/registros', [RegistroController::class, 'index']);
     Route::get('/registros/cargar', [RegistroController::class, 'create']);
     Route::post('/registros/cargar', [RegistroController::class, 'store']);
+    Route::get('/registros/exportar', [RegistroController::class, 'exportar']);
 });
 
 

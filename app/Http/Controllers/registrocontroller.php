@@ -28,32 +28,66 @@ class RegistroController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'archivo' => 'required|mimes:csv,txt'
-    ]);
+    {
+        $request->validate([
+            'archivo' => 'required|mimes:csv,txt'
+        ]);
 
-    $archivo = $request->file('archivo');
-    $ruta = $archivo->getRealPath();
+        $archivo = $request->file('archivo');
+        $ruta = $archivo->getRealPath();
 
-    $datos = array_map('str_getcsv', file($ruta));
+        $datos = array_map('str_getcsv', file($ruta));
 
-    // Eliminar encabezado
-    unset($datos[0]);
+        // Eliminar encabezado
+        unset($datos[0]);
 
-    foreach ($datos as $fila) {
-        Registro::updateOrCreate(
-            ['codigo' => $fila[0]],
-            [
-                'nombre' => $fila[1],
-                'email' => $fila[2],
-                'fecha' => $fila[3],
-                'estado' => $fila[4],
-            ]
-        );
+        foreach ($datos as $fila) {
+            Registro::updateOrCreate(
+                ['codigo' => $fila[0]],
+                [
+                    'nombre' => $fila[1],
+                    'email' => $fila[2],
+                    'fecha' => $fila[3],
+                    'estado' => $fila[4],
+                ]
+            );
+        }
+
+        return redirect('/registros')->with('success', 'Registros cargados correctamente');
     }
 
-    return redirect('/registros')->with('success', 'Registros cargados correctamente');
-}
+    public function exportar()
+    {
+        $registros = Registro::all();
+
+        $nombreArchivo = 'registros_' . now()->format('Ymd_His') . '.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=$nombreArchivo",
+        ];
+
+        $callback = function () use ($registros) {
+            $archivo = fopen('php://output', 'w');
+
+            // Encabezados
+            fputcsv($archivo, ['Codigo', 'Nombre', 'Email', 'Fecha', 'Estado']);
+
+            foreach ($registros as $registro) {
+                fputcsv($archivo, [
+                    $registro->codigo,
+                    $registro->nombre,
+                    $registro->email,
+                    $registro->fecha,
+                    $registro->estado,
+                ]);
+            }
+
+            fclose($archivo);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
 
 }
