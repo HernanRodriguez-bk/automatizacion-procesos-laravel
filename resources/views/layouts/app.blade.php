@@ -19,9 +19,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/registros">Registros</a>
                 </li>
+                @if(Auth::user() && Auth::user()->esAdmin())
                 <li class="nav-item">
                     <a class="nav-link" href="/registros/cargar">Cargar CSV</a>
                 </li>
+                @endif
             </ul>
 
             <form method="POST" action="{{ route('logout') }}">
