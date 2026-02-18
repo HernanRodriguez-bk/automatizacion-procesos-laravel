@@ -14,6 +14,8 @@ ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
+RUN composeer install --no-dev --optimize-autoloader
+
 # Crear SQLite y dar permisos
 RUN touch /var/www/html/database/database.sqlite \
     && chmod -R 775 /var/www/html/database \
