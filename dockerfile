@@ -19,4 +19,9 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN chmod -R 777 storage bootstrap/cache
 
-EXPOSE 8000
+RUN touch /var/www/html/database/database.sqlite \
+    && chmod -R 775 /var/www/html/database \
+    && chmod -R 775 storage bootstrap/cache
+
+
+EXPOSE 8080
