@@ -23,5 +23,9 @@ RUN touch /var/www/html/database/database.sqlite \
     && chmod -R 775 /var/www/html/database \
     && chmod -R 775 storage bootstrap/cache
 
+RUN chmod +x /var/www/html/start.sh
+   
 
 EXPOSE 8080
+
+CMD ["/start.sh"]
