@@ -25,6 +25,6 @@ RUN touch /var/www/html/database/database.sqlite \
 # Dar permiso al script de inicio
 RUN chmod +x /var/www/html/start.sh
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["/var/www/html/start.sh"]
