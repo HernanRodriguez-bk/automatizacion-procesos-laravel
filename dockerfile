@@ -19,4 +19,4 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN chmod -R 777 storage bootstrap/cache
 
-CMD ["/start.sh"]
+EXPOSE 8000
